@@ -3,20 +3,25 @@ package it.dsteb.transaction;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
+@JsonInclude(Include.NON_NULL)
 public class Transaction {
 
   private long id;
   private double amount;
   private String type;
+
+  @JsonProperty("parent_id")
   private Long parentId;
+
+  @JsonIgnore
   private Collection<Transaction> children = new ArrayList<>();
 
-  public Transaction(long id, double amount, String type, Long parentId) {
-    this.id = id;
-    this.amount = amount;
-    this.type = type;
-    this.parentId = parentId;
-  }
+  public Transaction() {}
 
   public long getId() {
     return id;

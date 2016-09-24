@@ -7,6 +7,9 @@ import java.util.Deque;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class CachedTransactionService implements TransactionService {
 
   private Map<Long, Transaction> transactions = new HashMap<>();
@@ -15,20 +18,20 @@ public class CachedTransactionService implements TransactionService {
   // TODO: #dsteb Implement synchronization
 
   @Override
-  public void createTransaction(long id, double amount, String type, Long parentId) {
-    Transaction newOne = new Transaction(id, amount, type, parentId);
-    if (parentId != null) {
-      Transaction parent = transactions.get(parentId);
+  public void createTransaction(long id, Transaction newOne) {
+    newOne.setId(id);
+    if (newOne.getParentId() != null) {
+      Transaction parent = transactions.get(newOne.getParentId());
       // TODO: #dsteb Check parent not found
       parent.getChildren().add(newOne);
     }
 
     // TODO: #dsteb Check duplication
     transactions.put(id, newOne);
-    Collection<Transaction> transactions = transactionsByType.get(type);
+    Collection<Transaction> transactions = transactionsByType.get(newOne.getType());
     if (transactions == null) {
       transactions = new ArrayList<>();
-      transactionsByType.put(type, transactions);
+      transactionsByType.put(newOne.getType(), transactions);
     }
     transactions.add(newOne);
   }
