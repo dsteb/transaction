@@ -1,0 +1,23 @@
+1473180070732	Copy compilation unit
+1473180091787	Rename method 'getField'
+1473180106710	Rename method 'getStatus'
+1473180233570	Rename type 'Game'
+1473180475813	Move compilation unit
+1473180482938	Rename package 'it.dsteb.connect4.server'
+1473180494489	Rename type 'GameServer'
+1473180729438	Move compilation unit
+1473180881325	Encapsulate field 'currentPlayer'
+1473182146412	Rename local variable 'next'
+1473182737556	Rename local variable 'field'
+1473182753281	Rename local variable 'field'
+1473182758338	Rename local variable 'field'
+1473182778876	Rename local variable 'field'
+1473182796378	Rename local variable 'field'
+1473182837429	Delete element
+1473183561787	Move compilation unit
+1473183571820	Move compilation unit
+1473183610099	Move compilation units
+1473183649009	Rename package 'it.dsteb.connect4.err'
+1473185879365	Move compilation unit
+1473185912192	Move compilation unit
+1473185915812	Delete element

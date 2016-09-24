@@ -1,0 +1,44 @@
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+public class Solution {
+
+    /*
+     * Complete the function below.
+     */
+
+        static String compress(String str) {
+            char lastChar = str.charAt(0);
+            int count = 0;
+            StringBuilder result = new StringBuilder();
+            for (char c: str.toCharArray()) {
+                if (c == lastChar) {
+                    ++count;
+                } else {
+                    result.append(lastChar);
+                    if (count > 1) {
+                        result.append(count);
+                    }
+                    count = 1;
+                    lastChar = c;
+                }
+            }
+            result.append(lastChar);
+            if (count > 1) {
+                result.append(count);
+            }
+            return result.toString();
+        }
+
+        public static void main(String[] args) throws IOException{
+            String res;
+            String _str;
+            _str = "a";
+
+            res = compress(_str);
+            System.out.println(res);
+        }
+    }

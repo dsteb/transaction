@@ -1,0 +1,25 @@
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+public class Solution {
+
+    /*
+     * Complete the function below.
+     */
+
+        static String compress(String str) {
+
+
+        }
+        public static void main(String[] args) throws IOException{
+            String res;
+            String _str;
+            _str = "aaaabbbbbbbbcccccpqrstuv";
+
+            res = compress(_str);
+            System.out.println(res);
+        }
+    }

@@ -1,0 +1,67 @@
+package it.dsteb.connect4.web;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import it.dsteb.connect4.JSON;
+import it.dsteb.connect4.controller.GameEngine;
+import it.dsteb.connect4.controller.GameManager;
+import it.dsteb.connect4.model.Game;
+
+@SuppressWarnings("serial")
+public class GameServlet extends HttpServlet {
+
+  private String getPayload(HttpServletRequest req) {
+    StringBuffer buffer =  new StringBuffer();
+    String line;
+    try {
+      BufferedReader reader = req.getReader();
+      while ((line = reader.readLine()) != null) {
+        buffer.append(line);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw new RuntimeException(e);
+    }
+    return buffer.toString();
+  }
+
+  @Override
+  protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    GameManager manager = GameManager.getInstance();
+    String payload = getPayload(req);
+    if (payload.isEmpty()) {
+      Game game = manager.createGame();
+      resp.setContentType("application/json");
+      resp.setStatus(HttpServletResponse.SC_CREATED);
+      JsonElement json = new JSON().toJson(game);
+      resp.getWriter().println(json);
+    } else {
+      JsonElement element = new JsonParser().parse(payload);
+      JsonObject root = element.getAsJsonObject();
+      int id = root.get("id").getAsInt();
+      Game game = manager.getGame(id);
+      if (game == null) {
+        resp.setContentType("application/json");
+        resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+      } else {
+        int col = root.get("column").getAsInt();
+        GameEngine engine = new GameEngine(game);
+        game = engine.makeMove(col);
+        JsonElement json = new JSON().toJson(game);
+        resp.setStatus(HttpServletResponse.SC_OK);
+        resp.getWriter().println(json);
+      }
+    }
+  }
+
+}

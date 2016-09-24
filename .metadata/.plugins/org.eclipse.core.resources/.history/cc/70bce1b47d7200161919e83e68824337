@@ -1,0 +1,54 @@
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+public class Solution1 {
+
+    static String is_Palindrome(String s) {
+        Map<Character, Integer> countMap = new HashMap<Character, Integer>();
+        for (char c: s.toCharArray()) {
+            Integer count = countMap.get(c);
+            if (count == null) {
+                countMap.put(c, 1);
+            } else {
+                countMap.put(c, count + 1);
+            }
+        }
+//        System.out.println(countMap.values());
+        if (s.length() % 2 == 0) {
+            for (Integer count: countMap.values()) {
+                if (count % 2 != 0) {
+                    return "NO";
+                }
+            }
+        } else {
+            boolean oneOdd = false;
+            for (Integer count: countMap.values()) {
+                if (count % 2 != 0) {
+                    if (oneOdd) {
+                        return "NO";
+                    } else {
+                        oneOdd= true;
+                    }
+                }
+            }
+        }
+        return "YES";
+    }
+
+    public static void main(String[] args) throws IOException{
+        String res;
+
+        String _s;
+
+        _s = "aaabbbb";
+        res = is_Palindrome(_s);
+        System.out.println(res);
+
+        _s = "a";
+        res = is_Palindrome(_s);
+        System.out.println(res);
+    }
+}

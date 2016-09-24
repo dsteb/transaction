@@ -1,0 +1,13 @@
+1472841083061	Delete element
+1472841093324	Delete element
+1472841099129	Rename type 'AppTest'
+1472841594581	Rename field 'customMessage'
+1472841800325	Encapsulate field 'id'
+1472842180323	Rename method 'action'
+1472847549079	Delete element
+1472848659468	Rename method 'checkLeftTopDiagonal'
+1472850444302	Rename type 'GameError'
+1472856792681	Rename type 'WebService'
+1472857240429	Rename field 'status'
+1472857244414	Rename type 'Status'
+1472860073453	Rename local variable 'buf'
