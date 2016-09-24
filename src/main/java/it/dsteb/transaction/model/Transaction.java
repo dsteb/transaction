@@ -1,4 +1,4 @@
-package it.dsteb.transaction;
+package it.dsteb.transaction.model;
 
 import java.util.ArrayList;
 import java.util.Collection;

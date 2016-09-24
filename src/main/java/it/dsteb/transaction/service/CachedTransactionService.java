@@ -1,4 +1,4 @@
-package it.dsteb.transaction;
+package it.dsteb.transaction.service;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -8,6 +8,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
+
+import it.dsteb.transaction.error.DuplicatedTransactionException;
+import it.dsteb.transaction.error.TransactionNotFoundException;
+import it.dsteb.transaction.model.Transaction;
 
 @Service
 public class CachedTransactionService implements TransactionService {

@@ -9,6 +9,10 @@ import java.util.List;
 
 import org.junit.Test;
 
+import it.dsteb.transaction.model.Transaction;
+import it.dsteb.transaction.service.CachedTransactionService;
+import it.dsteb.transaction.service.TransactionService;
+
 public class CachedTransactionServiceTest {
 
   private void create(TransactionService service, long id, double amount, String type, Long parentId) {

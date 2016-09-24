@@ -1,6 +1,8 @@
-package it.dsteb.transaction;
+package it.dsteb.transaction.service;
 
 import java.util.Collection;
+
+import it.dsteb.transaction.model.Transaction;
 
 public interface TransactionService {
   void createTransaction(long id, Transaction newOne);

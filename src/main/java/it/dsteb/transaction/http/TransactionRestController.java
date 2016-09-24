@@ -1,4 +1,4 @@
-package it.dsteb.transaction;
+package it.dsteb.transaction.http;
 
 import java.util.Collection;
 import static java.util.stream.Collectors.toList;
@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import it.dsteb.transaction.model.Transaction;
+import it.dsteb.transaction.service.TransactionService;
 
 @RestController
 @RequestMapping("/transactionservice/")
