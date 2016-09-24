@@ -1,7 +1,9 @@
 package it.dsteb.transaction;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,6 +11,8 @@ public class CachedTransactionService implements TransactionService {
 
   private Map<Long, Transaction> transactions = new HashMap<>();
   private Map<String, Collection<Transaction>> transactionsByType = new HashMap<>();
+
+  // TODO: #dsteb Implement synchronization
 
   @Override
   public void createTransaction(long id, double amount, String type, Long parentId) {
@@ -46,12 +50,15 @@ public class CachedTransactionService implements TransactionService {
 
   @Override
   public double getSum(long parentId) {
-    // FIXME: #dsteb stackoverflow
     Transaction root = transactions.get(parentId);
-    double sum = root.getAmount();
     // FIXME: #dsteb Check not found
-    for (Transaction child: root.getChildren()) {
-      sum += getSum(child.getId());
+    double sum = 0;
+    Deque<Transaction> frontier = new ArrayDeque<>();
+    frontier.add(root);
+    while (!frontier.isEmpty()) {
+      root = frontier.pop();
+      sum += root.getAmount();
+      frontier.addAll(root.getChildren());
     }
     return sum;
   }

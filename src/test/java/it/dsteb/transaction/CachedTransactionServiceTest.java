@@ -48,4 +48,17 @@ public class CachedTransactionServiceTest {
     sum = service.getSum(10);
     assertEquals("Sum is 22k", 22000.0, sum, 0.0001);
   }
+
+  @Test
+  public void testStackOverflow() {
+    TransactionService service = new CachedTransactionService();
+    String type = "cars";
+    int expected = 10000;
+    service.createTransaction(1, 1, type, null);
+    for (int i = 2; i <= expected; ++i) {
+      service.createTransaction(i, 1, type, Long.valueOf(i - 1));
+    }
+    double sum = service.getSum(1);
+    assertEquals("The some should be 10000", expected, sum, 0.001);
+  }
 }
