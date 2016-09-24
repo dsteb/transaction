@@ -13,6 +13,13 @@ public class CachedTransactionService implements TransactionService {
   @Override
   public void createTransaction(long id, double amount, String type, Long parentId) {
     Transaction newOne = new Transaction(id, amount, type, parentId);
+    if (parentId != null) {
+      Transaction parent = transactions.get(parentId);
+      // TODO: #dsteb Check parent not found
+      parent.getChildren().add(newOne);
+    }
+
+    // TODO: #dsteb Check duplication
     transactions.put(id, newOne);
     Collection<Transaction> transactions = transactionsByType.get(type);
     if (transactions == null) {
@@ -24,6 +31,7 @@ public class CachedTransactionService implements TransactionService {
 
   @Override
   public Transaction getTransaction(long id) {
+    // TODO: #dsteb Check not found
     return transactions.get(id);
   }
 
@@ -38,7 +46,13 @@ public class CachedTransactionService implements TransactionService {
 
   @Override
   public double getSum(long parentId) {
-    // TODO Auto-generated method stub
-    return 0;
+    // FIXME: #dsteb stackoverflow
+    Transaction root = transactions.get(parentId);
+    double sum = root.getAmount();
+    // FIXME: #dsteb Check not found
+    for (Transaction child: root.getChildren()) {
+      sum += getSum(child.getId());
+    }
+    return sum;
   }
 }

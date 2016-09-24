@@ -33,4 +33,19 @@ public class CachedTransactionServiceTest {
     assertTrue("Contains id 11", ids.contains(11l));
     assertEquals("Contains 2 elements", 2, ids.size());
   }
+
+  @Test
+  public void testSum() {
+    TransactionService service = new CachedTransactionService();
+    String type = "cars";
+    service.createTransaction(10, 5000, type, null);
+    service.createTransaction(11, 7000, type, 10l);
+    service.createTransaction(12, 10000, "shopping", 11l);
+    double sum = service.getSum(12);
+    assertEquals("Sum is 10k", 10000.0, sum, 0.0001);
+    sum = service.getSum(11);
+    assertEquals("Sum is 17k", 17000.0, sum, 0.0001);
+    sum = service.getSum(10);
+    assertEquals("Sum is 22k", 22000.0, sum, 0.0001);
+  }
 }

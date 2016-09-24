@@ -1,11 +1,15 @@
 package it.dsteb.transaction;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 public class Transaction {
 
   private long id;
   private double amount;
   private String type;
   private Long parentId;
+  private Collection<Transaction> children = new ArrayList<>();
 
   public Transaction(long id, double amount, String type, Long parentId) {
     this.id = id;
@@ -39,4 +43,7 @@ public class Transaction {
     this.parentId = parentId;
   }
 
+  public Collection<Transaction> getChildren() {
+    return children;
+  }
 }
