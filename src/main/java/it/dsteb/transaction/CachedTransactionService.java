@@ -18,10 +18,8 @@ public class CachedTransactionService implements TransactionService {
   private Map<Long, Transaction> transactions = new HashMap<>();
   private Map<String, Collection<Transaction>> transactionsByType = new HashMap<>();
 
-  // TODO: #dsteb Implement synchronization
-
   @Override
-  public void createTransaction(long id, Transaction newOne) {
+  public synchronized void createTransaction(long id, Transaction newOne) {
     newOne.setId(id);
     if (newOne.getParentId() != null) {
       Transaction parent = transactions.get(newOne.getParentId());
@@ -44,7 +42,7 @@ public class CachedTransactionService implements TransactionService {
   }
 
   @Override
-  public Transaction getTransaction(long id) {
+  public synchronized Transaction getTransaction(long id) {
     Transaction transaction = transactions.get(id);
     if (transaction == null) {
       throw new TransactionNotFoundException(NOT_FOUND_MSG + id);
@@ -53,7 +51,7 @@ public class CachedTransactionService implements TransactionService {
   }
 
   @Override
-  public Collection<Transaction> getByType(String type) {
+  public synchronized Collection<Transaction> getByType(String type) {
     Collection<Transaction> transactions = transactionsByType.get(type);
     if (transactions == null) {
       transactions = new ArrayList<>();
@@ -62,7 +60,7 @@ public class CachedTransactionService implements TransactionService {
   }
 
   @Override
-  public double getSum(long parentId) {
+  public synchronized double getSum(long parentId) {
     Transaction root = transactions.get(parentId);
     if (root == null) {
       throw new TransactionNotFoundException(NOT_FOUND_MSG + parentId);
