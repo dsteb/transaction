@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
 @RestController
 @RequestMapping("/transactionservice/")
 public class TransactionRestController {
@@ -19,11 +22,13 @@ public class TransactionRestController {
   private TransactionService service;
 
   @PutMapping("transaction/{transaction_id}")
-  public Transaction createTransaction(
+  public ObjectNode createTransaction(
       @PathVariable("transaction_id") long id,
       @RequestBody Transaction transaction) {
     service.createTransaction(id, transaction);
-    return transaction;
+    ObjectNode response = JsonNodeFactory.instance.objectNode();
+    response.put("status", "ok");
+    return response;
   }
 
   @GetMapping("transaction/{transaction_id}")
@@ -39,8 +44,11 @@ public class TransactionRestController {
   }
 
   @GetMapping("sum/{transaction_id}")
-  public double getSum(
+  public ObjectNode getSum(
       @PathVariable("transaction_id") long id) {
-    return service.getSum(id);
+    double sum = service.getSum(id);
+    ObjectNode response = JsonNodeFactory.instance.objectNode();
+    response.put("sum", sum);
+    return response;
   }
 }
