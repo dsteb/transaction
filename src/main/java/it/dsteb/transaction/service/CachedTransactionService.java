@@ -25,18 +25,21 @@ public class CachedTransactionService implements TransactionService {
   @Override
   public synchronized void createTransaction(long id, Transaction newOne) {
     newOne.setId(id);
+    Transaction parent = null;
     if (newOne.getParentId() != null) {
-      Transaction parent = transactions.get(newOne.getParentId());
+      parent = transactions.get(newOne.getParentId());
       if (parent == null) {
         throw new TransactionNotFoundException(NOT_FOUND_MSG + newOne.getParentId());
       }
-      parent.getChildren().add(newOne);
     }
     Transaction oldOne = transactions.get(id);
     if (oldOne != null) {
       throw new DuplicatedTransactionException(DUPLICATE_MSG + id);
     }
     transactions.put(id, newOne);
+    if (parent != null) {
+      parent.getChildren().add(newOne);
+    }
     Collection<Transaction> transactionsByType = this.transactionsByType.get(newOne.getType());
     if (transactionsByType == null) {
       transactionsByType = new ArrayList<>();
