@@ -71,6 +71,6 @@ public class CachedTransactionServiceTest {
       create(service, i, 1, type, Long.valueOf(i - 1));
     }
     double sum = service.getSum(1);
-    assertEquals("The some should be 10000", expected, sum, 0.001);
+    assertEquals("The sum should be 10000", expected, sum, 0.001);
   }
 }
