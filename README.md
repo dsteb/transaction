@@ -20,7 +20,8 @@ The requirements are maven 3 and java 1.8.
 ## Getting started
 
 ```
-mvn exec:java
+$ mvn compile
+$ mvn exec:java
 ```
 The application will start on port 8080.
 
